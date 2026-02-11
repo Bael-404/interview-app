@@ -1,0 +1,33 @@
+<div style="max-width: 600px; margin: 20px auto; font-family: Arial;">
+  <h2>Patiënt Intake Formulier (ClickCare Demo)</h2>
+  
+  <form (ngSubmit)="onSubmit()">
+    <div style="margin-bottom: 10px;">
+      <label>Naam:</label><br>
+      <input type="text" [(ngModel)]="newPatient.name" name="name" required style="width: 100%;">
+    </div>
+    
+    <div style="margin-bottom: 10px;">
+      <label>E-mail:</label><br>
+      <input type="email" [(ngModel)]="newPatient.email" name="email" required style="width: 100%;">
+    </div>
+    
+    <div style="margin-bottom: 10px;">
+      <label>Klacht:</label><br>
+      <textarea [(ngModel)]="newPatient.complaint" name="complaint" required style="width: 100%;"></textarea>
+    </div>
+    
+    <button type="submit" style="padding: 10px 20px; background: #0056b3; color: white; border: none;">
+      Patiënt Registreren
+    </button>
+  </form>
+
+  <hr>
+
+  <h3>Geregistreerde Patiënten</h3>
+  <ul>
+    <li *ngFor="let p of patients">
+      <strong>{{ p.name }}</strong> ({{ p.email }}) - <em>{{ p.complaint }}</em>
+    </li>
+  </ul>
+</div>
