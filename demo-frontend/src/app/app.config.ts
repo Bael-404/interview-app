@@ -5,11 +5,11 @@ import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 
 // 1. Importeer de HttpClient provider
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes), provideClientHydration(withEventReplay()), provideHttpClient()
+    provideRouter(routes), provideClientHydration(withEventReplay()), provideHttpClient(withFetch())
   ]
 };

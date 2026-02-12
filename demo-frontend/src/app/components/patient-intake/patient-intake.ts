@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { PatientService, Patient } from '../../services/patient';
 // 1. Importeer de modules voor forms en standaard Angular features
 import { FormsModule } from '@angular/forms';
@@ -24,7 +24,7 @@ export class PatientIntakeComponent implements OnInit {
   };
 
   // Injecteer de PatientService
-  constructor(private patientService: PatientService) {}
+  constructor(private patientService: PatientService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.loadPatients();
@@ -36,13 +36,34 @@ export class PatientIntakeComponent implements OnInit {
     });
   }
 
+  isLoading: boolean = false;
+
   onSubmit(): void {
-    this.patientService.registerPatient(this.newPatient).subscribe(response => {
-      console.log('Patiënt succesvol opgeslagen!', response);
-      // Voeg de nieuwe patiënt toe aan de lijst op het scherm
-      this.patients.push(response);
-      // Maak het formulier weer leeg
-      this.newPatient = { name: '', email: '', complaint: '' };
+    if (this.isLoading) {
+        return;
+    }
+
+    console.log('Formulier ingediend. Huidige data:', this.newPatient);
+    this.isLoading = true;
+    
+    // Maak een kopie om referentie-problemen te voorkomen
+    const patientToSave = { ...this.newPatient };
+
+    this.patientService.registerPatient(patientToSave).subscribe({
+      next: (response) => {
+        console.log('Patiënt succesvol opgeslagen!', response);
+        // Gebruik spread operator voor immutable update, dit helpt Angular change detection
+        this.patients = [...this.patients, response];
+        // Maak het formulier weer leeg
+        this.newPatient = { name: '', email: '', complaint: '' };
+        this.isLoading = false;
+        this.cdr.detectChanges(); // Forceer view update
+      },
+      error: (error) => {
+        console.error('Fout bij opslaan:', error);
+        this.isLoading = false;
+        this.cdr.detectChanges(); // Forceer view update
+      }
     });
   }
 }
