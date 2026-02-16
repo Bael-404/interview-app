@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-patient-intake',
-  standalone: true, // Dit geeft aan dat het een modern component is
+  standalone: true,
   imports: [FormsModule, CommonModule], // Voeg de imports toe
   templateUrl: './patient-intake.html',
   styleUrl: './patient-intake.css',

@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/patients")
+@RestController // Web verzoeken en omzetten naar JSON
+@RequestMapping("/api/patients") // kan ook op de post en get mapping gebeuren
 @CrossOrigin(origins = "http://localhost:4200") // Belangrijk voor Angular!
 
 public class PatientController {
